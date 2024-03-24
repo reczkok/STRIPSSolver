@@ -116,9 +116,9 @@ class DockBots:
                         if k != l:
                             name = 'take ' + k + ' from ' + j + ' using ' + i
                             actions.append(Strips(name, {i + 'belong' + j: True, i + 'empty': True, k + 'in' + j: True,
-                                                         k + 'top' + j: True, l + 'on' + k: True},
+                                                         k + 'top' + j: True, k + 'on' + l: True},
                                                   {i + 'holding' + k: True, k + 'top' + j: False, k + 'in' + j: False,
-                                                   l + 'on' + k: False, i + 'empty': False}))
+                                                   k + 'on' + l: False, i + 'empty': False, l + 'top' + j: True}))
         for i in self.cranes:
             for j in self.locations:
                 for k in self.containers:
@@ -132,10 +132,10 @@ class DockBots:
         for i in self.cranes:
             for j in self.locations:
                 for k in self.containers:
-                    empty_condition = {l + 'in' + j: False for l in self.containers if l != k}
+                    empty_condition = {l + 'top' + j: False for l in self.containers}
                     name = 'put ' + k + ' at ' + j + ' on empty pile using ' + i
                     actions.append(Strips(name, {i + 'belong' + j: True, i + 'holding' + k: True, **empty_condition,
-                                                 i + 'empty': True},
+                                                 i + 'empty': False},
                                           {k + 'in' + j: True, k + 'top' + j: True, i + 'holding' + k: False,
                                            i + 'empty': True}))
         return actions
